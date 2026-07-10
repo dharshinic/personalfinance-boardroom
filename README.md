@@ -1,4 +1,4 @@
-@'
+
 # Personal Finance Boardroom
 
 An AI-powered "board of financial experts" that reviews your budgeting, tax, debt, and investment questions and returns one synthesized recommendation -- surfacing where the specialists agree and where they disagree. Built with Cognizant's [neuro-san](https://github.com/cognizant-ai-lab/neuro-san) multi-agent framework.
