@@ -1,0 +1,9 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.env
+logs/
+nss_local.db
+start_server.bat
+start_nsflow.bat

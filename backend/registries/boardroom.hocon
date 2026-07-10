@@ -1,21 +1,161 @@
 {
-    "llm_config": {
-        "model_name": "gpt-4o-mini"
-    },
+"llm_config": {
+    "class": "langchain_google_genai.chat_models.ChatGoogleGenerativeAI",
+    "model_name": "gemini-2.5-flash-lite",
+    "temperature": 0.3
+},
 
     "tools": [
         {
             "name": "boardroom_chair",
             "function": {
-                "description": "The Boardroom Chair, a friendly financial advisor coordinator. For now, this is a simple test agent with no specialists yet."
+                "description": "Coordinates a board of financial specialist advisors and synthesizes their input into one clear recommendation."
             },
             "instructions": """
-                You are the Boardroom Chair for a personal finance advisory board.
-                For now, just introduce yourself warmly, explain that you will
-                soon coordinate a team of specialist financial advisors
-                (Budgeting, Investment, Tax, and Debt), and ask the user
-                what financial question is on their mind today.
-            """
+                You are the Chair of a Personal Finance Advisory Board.
+
+                A user will describe a financial situation or question.
+                Decide which of your specialist board members are relevant
+                to THIS specific question -- you do not need to consult all
+                of them every time. Available specialists: budgeting_advisor,
+                investment_advisor, tax_advisor, debt_advisor.
+
+                Consult only the relevant specialists, then synthesize their
+                input into one clear, actionable recommendation. Explicitly
+                point out where specialists agreed and where they had
+                tension or trade-offs, and explain how you weighed that
+                tension in your final recommendation.
+
+                Be warm, clear, and avoid jargon.
+            """,
+            "tools": ["budgeting_advisor", "investment_advisor", "tax_advisor", "debt_advisor"]
+        },
+
+        {
+            "name": "budgeting_advisor",
+            "function": {
+                "description": "Analyzes spending patterns and suggests budget allocations.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "inquiry": { "type": "string", "description": "The budgeting question passed from the Chair." }
+                    },
+                    "required": ["inquiry"]
+                }
+            },
+            "instructions": """
+                You are a Budgeting Advisor. Use BudgetCalculatorTool to
+                analyze spending categories and return practical guidance.
+                Keep it concise -- you are reporting back to the Chair.
+            """,
+            "tools": ["BudgetCalculatorTool"]
+        },
+        {
+            "name": "BudgetCalculatorTool",
+            "class": "boardroom.budget_calculator.BudgetCalculatorTool",
+            "function": {
+                "description": "Calculates budget breakdown and savings rate from sly_data."
+            }
+        },
+
+        {
+            "name": "investment_advisor",
+            "function": {
+                "description": "Gives investment allocation guidance based on goals and risk tolerance.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "inquiry": { "type": "string", "description": "The investment question passed from the Chair." }
+                    },
+                    "required": ["inquiry"]
+                }
+            },
+            "instructions": """
+                You are an Investment Advisor. If the inquiry depends on
+                risk tolerance, call risk_profiler first. Keep your
+                response concise -- you are reporting back to the Chair.
+            """,
+            "tools": ["risk_profiler"]
+        },
+
+        {
+            "name": "tax_advisor",
+            "function": {
+                "description": "Estimates tax implications of financial decisions.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "inquiry": { "type": "string", "description": "The tax question passed from the Chair." }
+                    },
+                    "required": ["inquiry"]
+                }
+            },
+            "instructions": """
+                You are a Tax Advisor. Use TaxEstimatorTool to ground your
+                answer in actual bracket data. Keep your response concise.
+            """,
+            "tools": ["TaxEstimatorTool"]
+        },
+        {
+            "name": "TaxEstimatorTool",
+            "class": "boardroom.tax_estimator.TaxEstimatorTool",
+            "function": {
+                "description": "Estimates tax owed and rates from sly_data income."
+            }
+        },
+
+        {
+            "name": "debt_advisor",
+            "function": {
+                "description": "Recommends debt payoff strategy.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "inquiry": { "type": "string", "description": "The debt question passed from the Chair." }
+                    },
+                    "required": ["inquiry"]
+                }
+            },
+            "instructions": """
+                You are a Debt Advisor. Use DebtPayoffTool to compare
+                strategies. If risk tolerance is relevant, call
+                risk_profiler. Keep your response concise.
+            """,
+            "tools": ["DebtPayoffTool", "risk_profiler"]
+        },
+        {
+            "name": "DebtPayoffTool",
+            "class": "boardroom.debt_payoff.DebtPayoffTool",
+            "function": {
+                "description": "Compares avalanche vs snowball debt payoff strategies from sly_data."
+            }
+        },
+
+        {
+            "name": "risk_profiler",
+            "function": {
+                "description": "Shared sub-agent that assesses the user's risk tolerance. Can be called by multiple other advisors.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "inquiry": { "type": "string", "description": "Why risk tolerance is needed." }
+                    },
+                    "required": ["inquiry"]
+                }
+            },
+            "instructions": """
+                You are a Risk Profiler. Use RiskScoreTool to compute a
+                risk tolerance category. Report back just the category
+                and a one-line justification.
+            """,
+            "tools": ["RiskScoreTool"]
+        },
+        {
+            "name": "RiskScoreTool",
+            "class": "boardroom.risk_score.RiskScoreTool",
+            "function": {
+                "description": "Computes risk tolerance category from sly_data survey answers."
+            }
         }
     ]
 }
