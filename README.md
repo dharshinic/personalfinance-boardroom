@@ -16,7 +16,7 @@ An AI-powered "board of financial experts" that reviews your budgeting, tax, deb
 ## Setup
 
 ### 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/personalfinance-boardroom.git
+git clone https://github.com/dharshinic/personalfinance-boardroom.git
 cd personalfinance-boardroom
 
 ### 2. Create and activate a virtual environment
