@@ -67,7 +67,7 @@ if "last_trace" not in st.session_state:
 
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
-        st.write(msg["content"])
+        st.write(msg["content"].replace("$", "\\$"))
 
 user_input = st.chat_input("Ask the Boardroom a financial question...")
 
@@ -114,7 +114,7 @@ if user_input:
                 if not final_text:
                     final_text = "(No text found in response -- check the reasoning trace below and share it so we can fix the parsing.)"
 
-                st.write(final_text)
+                st.write(final_text.replace("$", "\\$"))
                 st.session_state.messages.append({"role": "assistant", "content": final_text})
                 st.session_state.last_trace = trace
 

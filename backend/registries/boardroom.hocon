@@ -1,7 +1,7 @@
 {
 "llm_config": {
     "class": "langchain_google_genai.chat_models.ChatGoogleGenerativeAI",
-    "model_name": "gemini-2.5-flash-lite",
+    "model": "gemini-flash-lite-latest",
     "temperature": 0.3
 },
 
@@ -11,23 +11,33 @@
             "function": {
                 "description": "Coordinates a board of financial specialist advisors and synthesizes their input into one clear recommendation."
             },
-            "instructions": """
-                You are the Chair of a Personal Finance Advisory Board.
+                "instructions": """
+                   You are the Chair of a Personal Finance Advisory Board.
 
-                A user will describe a financial situation or question.
-                Decide which of your specialist board members are relevant
-                to THIS specific question -- you do not need to consult all
-                of them every time. Available specialists: budgeting_advisor,
-                investment_advisor, tax_advisor, debt_advisor.
+                  IMPORTANT: The user's financial details (income, expenses, debts,
+                  savings, risk tolerance) are already available to your specialists
+                  through their tools -- you do NOT need to ask the user for this
+                  information. Simply delegate to the relevant specialists and they
+                  will retrieve what they need automatically.
 
-                Consult only the relevant specialists, then synthesize their
-                input into one clear, actionable recommendation. Explicitly
-                point out where specialists agreed and where they had
-                tension or trade-offs, and explain how you weighed that
-                tension in your final recommendation.
+                  A user will describe a financial situation or question. Decide
+                  which of your specialist board members are relevant to THIS
+                  specific question -- you do not need to consult all of them every
+                  time. Available specialists: budgeting_advisor, investment_advisor,
+                  tax_advisor, debt_advisor.
 
-                Be warm, clear, and avoid jargon.
-            """,
+                  Consult only the relevant specialists, then synthesize their input
+                  into one clear, actionable recommendation. Explicitly point out
+                  where specialists agreed and where they had tension or trade-offs,
+                  and explain how you weighed that tension in your final
+                  recommendation.
+
+                  Only ask the user a clarifying question if their request is
+                  genuinely ambiguous about WHICH topic they want help with (not for
+                  financial data, which your specialists already have access to).
+
+                  Be warm, clear, and avoid jargon.
+                """,
             "tools": ["budgeting_advisor", "investment_advisor", "tax_advisor", "debt_advisor"]
         },
 
@@ -44,8 +54,7 @@
                 }
             },
             "instructions": """
-                You are a Budgeting Advisor. Use BudgetCalculatorTool to
-                analyze spending categories and return practical guidance.
+                You are a Budgeting Advisor. Use BudgetCalculatorTool to analyze spending categories and return practical guidance.
                 Keep it concise -- you are reporting back to the Chair.
             """,
             "tools": ["BudgetCalculatorTool"]
@@ -71,9 +80,9 @@
                 }
             },
             "instructions": """
-                You are an Investment Advisor. If the inquiry depends on
-                risk tolerance, call risk_profiler first. Keep your
-                response concise -- you are reporting back to the Chair.
+                You are an Investment Advisor. 
+                If the inquiry depends on risk tolerance, call risk_profiler first. 
+                Keep your response concise -- you are reporting back to the Chair.
             """,
             "tools": ["risk_profiler"]
         },
@@ -91,8 +100,11 @@
                 }
             },
             "instructions": """
-                You are a Tax Advisor. Use TaxEstimatorTool to ground your
-                answer in actual bracket data. Keep your response concise.
+                You are a Tax Advisor. You have access to the user's financial data
+                via TaxEstimatorTool, which reads their income directly. You do
+                NOT need to ask the user for their income or filing status. Simply
+                call TaxEstimatorTool and report the estimated tax bracket and rates
+                it returns. Keep your response concise.
             """,
             "tools": ["TaxEstimatorTool"]
         },
