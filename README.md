@@ -82,27 +82,29 @@ Open `http://localhost:4173/home`, connect to `localhost:8080`, and select the `
 ---
 
 ## Project Structure
-personalfinance-boardroom/
-+-- backend/
-|   +-- registries/
-|   |   +-- manifest.hocon           # Active agent registry
-|   |   +-- boardroom.hocon          # Multi-agent network definition
-|   +-- coded_tools/
-|       +-- boardroom/
-|           +-- budget_calculator.py  # CodedTool: budget breakdown & savings rate
-|           +-- debt_payoff.py        # CodedTool: avalanche vs snowball payoff
-|           +-- tax_estimator.py      # CodedTool: 2026 tax bracket estimation
-|           +-- risk_score.py         # CodedTool: risk tolerance scoring
-|           +-- data/
-|               +-- tax_brackets_2026.json
-+-- frontend/
-|   +-- streamlit_app.py             # Streamlit chat UI + financial intake form
-+-- requirements.txt                 # Python dependencies
-+-- architecture.md                  # System architecture
-+-- summary.md                       # Project summary
-+-- README.md                        # This file
 
----
+```
+personalfinance-boardroom/
+├── backend/
+│   ├── registries/
+│   │   ├── manifest.hocon           # Active agent registry
+│   │   └── boardroom.hocon          # Multi-agent network definition
+│   └── coded_tools/
+│       └── boardroom/
+│           ├── budget_calculator.py  # CodedTool: budget breakdown & savings rate
+│           ├── debt_payoff.py        # CodedTool: avalanche vs snowball payoff
+│           ├── tax_estimator.py      # CodedTool: 2026 tax bracket estimation
+│           ├── risk_score.py         # CodedTool: risk tolerance scoring
+│           └── data/
+│               └── tax_brackets_2026.json
+├── frontend/
+│   └── streamlit_app.py             # Streamlit chat UI + financial intake form
+├── requirements.txt                 # Python dependencies
+├── architecture.md                  # System architecture
+├── summary.md                       # Project summary
+└── README.md                        # This file
+```
+
 
 ## How It Works
 
