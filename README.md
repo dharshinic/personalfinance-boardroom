@@ -173,4 +173,3 @@ See `requirements.txt` for exact pinned versions.
 **Streamlit shows a connection error** -- The backend server (`python -m neuro_san.service.main_loop.server_main_loop`) must be running in a separate terminal before starting Streamlit.
 
 **Port already in use** -- Pass a different port: `streamlit run frontend/streamlit_app.py --server.port 8502`
-'@ | Set-Content -Encoding utf8 README.md
