@@ -7,4 +7,4 @@ logs/
 nss_local.db
 start_server.bat
 start_nsflow.bat
-nss_local.db
+nss_local.db"nss_local.db" 
