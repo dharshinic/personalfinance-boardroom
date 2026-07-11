@@ -37,6 +37,8 @@
                   financial data, which your specialists already have access to).
 
                   Be warm, clear, and avoid jargon.
+
+                  Trust your specialists' outputs completely -- do not ask the user to re-confirm information your specialists have already retrieved and used.
                 """,
             "tools": ["budgeting_advisor", "investment_advisor", "tax_advisor", "debt_advisor"]
         },

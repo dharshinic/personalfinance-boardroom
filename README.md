@@ -1,4 +1,4 @@
-@'
+
 # Personal Finance Boardroom
 
 An AI-powered "board of financial experts" that reviews your budgeting, tax, debt, and investment questions and returns one synthesized recommendation -- surfacing where the specialists agree and where they disagree. Built with Cognizant's [neuro-san](https://github.com/cognizant-ai-lab/neuro-san) multi-agent framework.
@@ -16,34 +16,49 @@ An AI-powered "board of financial experts" that reviews your budgeting, tax, deb
 ## Setup
 
 ### 1. Clone the repository
+```
 git clone https://github.com/dharshinic/personalfinance-boardroom.git
 cd personalfinance-boardroom
+```
 
 ### 2. Create and activate a virtual environment
 
 If you already have a working neuro-san-studio virtual environment, you can reuse it instead of creating a new one:
 Windows
+```
 neuro-san-studio\venv\Scripts\activate
+```
 macOS / Linux
+```
 source neuro-san-studio/venv/bin/activate
-
+```
 Otherwise, create a fresh one:
+```
 python -m venv venv
+```
 Windows
+```
 venv\Scripts\activate
+```
 macOS / Linux
+```
 source venv/bin/activate
+```
 
 ### 3. Install dependencies
+```
 pip install -r requirements.txt
+```
 
 ### 4. Set your environment variables
 
 This project needs four environment variables set before starting the backend. Windows (cmd) example:
+```
 set GOOGLE_API_KEY=your-gemini-api-key-here
-set AGENT_MANIFEST_FILE=<full-path-to-repo>\backend\registries\manifest.hocon
-set AGENT_TOOL_PATH=<full-path-to-repo>\backend\coded_tools
-set PYTHONPATH=<full-path-to-repo>
+set AGENT_MANIFEST_FILE=FULL_PATH_TO_REPO\backend\registries\manifest.hocon
+set AGENT_TOOL_PATH=FULL_PATH_TO_REPO\backend\coded_tools
+set PYTHONPATH=FULL_PATH_TO_REPO
+```
 
 macOS / Linux equivalent uses `export` instead of `set`.
 
@@ -56,14 +71,18 @@ For convenience, two Windows startup scripts are included as templates -- copy t
 ## Running the App
 
 ### Launch the backend (neuro-san server)
+```
 python -m neuro_san.service.main_loop.server_main_loop
+```
 
 Leave this running in its own terminal. It serves the agent network over HTTP on port `8080`.
 
 ### Launch the Streamlit web interface
 
 In a separate terminal (with the same environment variables set, minus `AGENT_TOOL_PATH`/`AGENT_MANIFEST_FILE` which are backend-only):
+```
 streamlit run frontend/streamlit_app.py
+```
 
 Open the URL printed in the terminal (usually `http://localhost:8501`).
 
@@ -75,7 +94,9 @@ Open the URL printed in the terminal (usually `http://localhost:8501`).
 Fill in the sidebar "Your Financial Snapshot" form first -- it builds the private financial data (sly-data) the specialists use to ground their answers in real numbers.
 
 ### Optional: visual agent graph (nsflow)
+```
 python -m nsflow.run --client_only
+```
 
 Open `http://localhost:4173/home`, connect to `localhost:8080`, and select the `boardroom` network to see the live multi-agent delegation graph. This is a development/demo tool only -- the Streamlit app does not depend on it.
 
@@ -151,4 +172,3 @@ See `requirements.txt` for exact pinned versions.
 **Streamlit shows a connection error** -- The backend server (`python -m neuro_san.service.main_loop.server_main_loop`) must be running in a separate terminal before starting Streamlit.
 
 **Port already in use** -- Pass a different port: `streamlit run frontend/streamlit_app.py --server.port 8502`
-'@ | Set-Content -Encoding utf8 README.md
