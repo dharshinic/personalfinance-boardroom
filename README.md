@@ -1,4 +1,5 @@
 
+
 # Personal Finance Boardroom
 
 An AI-powered "board of financial experts" that reviews your budgeting, tax, debt, and investment questions and returns one synthesized recommendation -- surfacing where the specialists agree and where they disagree. Built with Cognizant's [neuro-san](https://github.com/cognizant-ai-lab/neuro-san) multi-agent framework.
@@ -172,3 +173,4 @@ See `requirements.txt` for exact pinned versions.
 **Streamlit shows a connection error** -- The backend server (`python -m neuro_san.service.main_loop.server_main_loop`) must be running in a separate terminal before starting Streamlit.
 
 **Port already in use** -- Pass a different port: `streamlit run frontend/streamlit_app.py --server.port 8502`
+'@ | Set-Content -Encoding utf8 README.md
